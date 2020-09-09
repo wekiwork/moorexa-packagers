@@ -53,7 +53,7 @@ class MoorexaWebRouterController implements RouterHandlerInterface
         if (file_exists($containerFile)) include_once $containerFile;
 
         // include global functions for the framework
-        include_once __DIR__ . '/Helpers/Functions.php';
+        include_once constant('GLOBAL_CORE') . '/Packager/Moorexa/Helpers/Functions.php';
 
         // load controller guard and update requestUri
         Router::$requestUri = Guards::loadGuard(ControllerGuards::class, Router::$requestUri);
