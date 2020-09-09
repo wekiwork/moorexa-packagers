@@ -47,7 +47,7 @@ class MoorexaMicroRouterController implements RouterHandlerInterface
         self::registerControllerNamespace();
 
         // get container file from services directory
-        $containerFile = func()->const('services') . '/container.php';
+        $containerFile = get_path(func()->const('services'), '/container.php');
 
         // load container file
         if (file_exists($containerFile)) include_once $containerFile;
@@ -59,10 +59,10 @@ class MoorexaMicroRouterController implements RouterHandlerInterface
         Router::$requestUri = Guards::loadGuard(ControllerGuards::class, Router::$requestUri);
 
         // include event registry file
-        include_once func()->const('services') . '/events.php';
+        include_once get_path(func()->const('services'), '/events.php');
 
         // include route base file
-        include_once func()->const('services') . '/routes.php';
+        include_once get_path(func()->const('services'), '/routes.php');
 
         // get route matched
         $routeMatched = Router::getRouteMatched();

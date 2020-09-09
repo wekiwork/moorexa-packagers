@@ -28,13 +28,13 @@ class StarterPack
         $urlHelper = ClassManager::singleton(Helpers\URL::class);
 
         // get base path
-        $basePath = $urlHelper->getPathUrl() . '/' . func()->const('system') . '/Starter/';
+        $basePath = $urlHelper->getPathUrl() . '/' . get_path(func()->const('system'), '/Starter/');
 
         // get main directory
-        $directory = func()->const('system') . '/Starter/';
+        $directory = get_path(func()->const('system'), '/Starter/');
 
         // include starter file
-        include_once func()->const('system') . '/Starter/index.html';
+        include_once get_path(func()->const('system'), '/Starter/index.html');
     }
 
     /**
@@ -50,7 +50,7 @@ class StarterPack
         $assets = ClassManager::singleton(Helpers\Assets::class);
 
         // include coming soon file
-        include_once func()->const('system') . '/Starter/coming-soon.html';
+        include_once get_path(func()->const('system'), '/Starter/coming-soon.html');
     }
 
     /**
@@ -66,7 +66,7 @@ class StarterPack
         $assets = ClassManager::singleton(Helpers\Assets::class);
 
         // include coming soon file
-        include_once func()->const('system') . '/Starter/maintenance-mode.html';
+        include_once get_path(func()->const('system'), '/Starter/maintenance-mode.html');
     }
 
     /**
@@ -94,7 +94,7 @@ class StarterPack
             $message = 'The requested '.$requestType.' : <span style="padding: 5px; background: #fcfcfc; color: #f20;">'.$url.'</span> was not found. You should try returning to the home page.';
 
             // include coming soon file
-            include_once func()->const('system') . '/Starter/http-error.html';
+            include_once get_path(func()->const('system'), '/Starter/http-error.html');
 
         endif;
     }
@@ -122,7 +122,7 @@ class StarterPack
             $message = 'The requested route : <span style="padding: 5px; background: #fcfcfc; color: #f20;">'.$url.'</span> was not found. It\'s also possible that we couldn\'t load this controller from this namesapce "'.$controller.'".';
 
             // include coming soon file
-            include_once func()->const('system') . '/Starter/http-error.html';
+            include_once get_path(func()->const('system'), '/Starter/http-error.html');
 
         endif;
     }
