@@ -30,6 +30,11 @@ class Partials
     private $partialArray = [];
 
     /**
+     * @var array $exportedVariables
+     */
+    private static $exportedVariables = [];
+
+    /**
      * @method Partials partial
      * @param string $name
      * @param array $___data
@@ -191,7 +196,7 @@ class Partials
 
             if (file_exists($partialClass->file))
             {
-                $_output = function() use ($___data, $getPath, $partialClass)
+                $_output = function() use ($___data, $getPath, $partialClass, $originalName)
                 {
                     // extract vars
 
@@ -224,6 +229,10 @@ class Partials
 
                     endif;
 
+                    // load exported variables
+                    extract(self::getExportedVars($originalName));
+
+                    // load from self passed variables
                     if (is_array($___data)) extract($___data);
 
                     // load cached file.
@@ -235,7 +244,7 @@ class Partials
             else
             {
 
-                $_output = function() use ($___data, $instance, $getPath, $partialClass)
+                $_output = function() use ($___data, $instance, $getPath, $partialClass, $originalName)
                 {
                     // extract vars
 
@@ -253,6 +262,10 @@ class Partials
 
                         endif;
 
+                        // load exported variables
+                        extract(self::getExportedVars($originalName));
+
+                        // load from self passed variables
                         if (is_array($___data)) extract($___data);
 
                         $output = null;
@@ -511,6 +524,30 @@ class Partials
     public static function readMarkDown(string &$content) : void
     {
         if (class_exists('Parsedown')) $content = \Parsedown::instance()->text($content);
+    }
+
+    /**
+     * @method Partials exportVars
+     * @param string $partialName
+     * @param array $args
+     */
+    public static function exportVars(string $partialName, array $args) : void 
+    {
+        // can we create
+        self::$exportedVariables = is_array(self::$exportedVariables) ? self::$exportedVariables : [];
+
+        // merge with existing.
+        self::$exportedVariables[$partialName] = array_merge($args, ((isset(self::$exportedVariables[$partialName]) && is_array(self::$exportedVariables[$partialName])) ? self::$exportedVariables[$partialName] : []));
+    }
+
+    /**
+     * @method Partials getExportedVars
+     * @param string $partialName
+     * @return array
+     */
+    private static function getExportedVars(string $partialName) : array 
+    {
+        return isset(self::$exportedVariables[$partialName]) ? self::$exportedVariables[$partialName] : [];
     }
 
     /**
